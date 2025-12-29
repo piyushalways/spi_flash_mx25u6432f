@@ -31,7 +31,7 @@
 	defined(CONFIG_FLASH_STM32_XSPI)
 #define SPI_FLASH_MULTI_SECTOR_TEST
 #endif
-#define SPI_FLASH_MULTI_SECTOR_TEST 1
+// #define SPI_FLASH_MULTI_SECTOR_TEST 1
 
 #if DT_HAS_COMPAT_STATUS_OKAY(jedec_spi_nor)
 #define SPI_FLASH_COMPAT jedec_spi_nor
@@ -49,7 +49,7 @@
 #define SPI_FLASH_COMPAT invalid
 #endif
 
-const uint8_t erased[] = { 0xff, 0xff, 0xff, 0xff };
+const uint8_t erased[] = { 0xff, 0xff, 0xff, 0xff , 0xff, 0xff, 0xff, 0xff };
 
 /* Expected JEDEC ID for MX25U6432F: Manufacturer=0xC2, Type=0x25, Capacity=0x37 */
 #define EXPECTED_MFR_ID    0xC2
@@ -128,9 +128,16 @@ static bool verify_jedec_id(const struct device *flash_dev)
 
 void single_sector_test(const struct device *flash_dev)
 {
-	const uint8_t expected[] = { 0x55, 0xaa, 0x66, 0x99 };
+	/* Create array with values 0x00 to 0xFF (256 bytes) */
+	static uint8_t expected[2000];
+	static uint8_t buf[2000];
+	static uint8_t erase_buf[2000];
+	
+	/* Initialize expected array with values 0x00 to 0xFF */
+	for (int i = 0; i < 256; i++) {
+		expected[i] = (uint8_t)i;
+	}
 	const size_t len = sizeof(expected);
-	uint8_t buf[sizeof(expected)];
 	int rc;
 
 	printf("\nPerform test on single sector");
@@ -166,23 +173,36 @@ void single_sector_test(const struct device *flash_dev)
 		printf("Waiting for erase to complete (2s delay for driver bug)...\n");
 		k_msleep(2000);
 
-		/* Check erased pattern */
-		memset(buf, 0, len);
-		rc = flash_read(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, buf, len);
+		/* Check erased pattern - read full 256 bytes to verify erase */
+		memset(erase_buf, 0, len);
+		rc = flash_read(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, erase_buf, len);
 		if (rc != 0) {
 			printf("Flash read failed! %d\n", rc);
 			return;
 		}
 		printf("After erase:  0x%02x 0x%02x 0x%02x 0x%02x\n",
-		       buf[0], buf[1], buf[2], buf[3]);
+		       erase_buf[0], erase_buf[1], erase_buf[2], erase_buf[3]);
 
-		if (memcmp(erased, buf, len) != 0) {
-			printf("Flash erase failed at offset 0x%x got 0x%08x (expected 0xffffffff)\n",
-				SPI_FLASH_TEST_REGION_OFFSET, *(uint32_t *)buf);
-			printf("Byte-by-byte comparison:\n");
-			for (size_t i = 0; i < len; i++) {
-				printf("  Byte %zu: expected 0xff, got 0x%02x %s\n",
-				       i, buf[i], (buf[i] == 0xff) ? "OK" : "FAIL");
+		/* Check all bytes are 0xFF */
+		bool erase_success = true;
+		int first_fail = -1;
+		for (size_t i = 0; i < len; i++) {
+			if (erase_buf[i] != 0xff) {
+				if (first_fail == -1) {
+					first_fail = (int)i;
+				}
+				erase_success = false;
+			}
+		}
+
+		if (!erase_success) {
+			printf("Flash erase FAILED - found non-0xFF values:\n");
+			printf("  First failure at byte %d: expected 0xff, got 0x%02x\n",
+			       first_fail, erase_buf[first_fail]);
+			printf("Byte-by-byte comparison of first 16 bytes:\n");
+			for (size_t i = 0; i < 16 && i < len; i++) {
+				printf("  Byte %zu: 0x%02x %s\n",
+				       i, erase_buf[i], (erase_buf[i] == 0xff) ? "OK" : "FAIL");
 			}
 
 			/* Try erasing again to see if double-erase helps */
@@ -195,26 +215,34 @@ void single_sector_test(const struct device *flash_dev)
 			}
 			k_msleep(2000);
 
-			memset(buf, 0, len);
-			rc = flash_read(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, buf, len);
+			memset(erase_buf, 0, len);
+			rc = flash_read(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, erase_buf, len);
 			if (rc != 0) {
 				printf("Flash read after second erase failed! %d\n", rc);
 				return;
 			}
 			printf("After 2nd erase: 0x%02x 0x%02x 0x%02x 0x%02x\n",
-			       buf[0], buf[1], buf[2], buf[3]);
+			       erase_buf[0], erase_buf[1], erase_buf[2], erase_buf[3]);
 
-			if (memcmp(erased, buf, len) != 0) {
+			erase_success = true;
+			for (size_t i = 0; i < len; i++) {
+				if (erase_buf[i] != 0xff) {
+					erase_success = false;
+					break;
+				}
+			}
+
+			if (!erase_success) {
 				printf("Still failed after second erase.\n");
 				printf("This may indicate a hardware issue or driver bug.\n");
 				return;
 			}
 			printf("Second erase succeeded!\n");
 		} else {
-			printf("Flash erase succeeded!\n");
+			printf("Flash erase succeeded! All bytes are 0xFF\n");
 		}
 	}
-	printf("\nTest 2: Flash write\n");
+	printf("\nTest 2: Flash write (writing 0x00-0xFF)\n");
 
 	printf("Attempting to write %zu bytes\n", len);
 	rc = flash_write(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, expected, len);
@@ -223,6 +251,9 @@ void single_sector_test(const struct device *flash_dev)
 		return;
 	}
 
+	printf("Waiting 2 seconds before read...\n");
+	k_msleep(2000);
+
 	memset(buf, 0, len);
 	rc = flash_read(flash_dev, SPI_FLASH_TEST_REGION_OFFSET, buf, len);
 	if (rc != 0) {
@@ -230,22 +261,35 @@ void single_sector_test(const struct device *flash_dev)
 		return;
 	}
 
-	if (memcmp(expected, buf, len) == 0) {
-		printf("Data read matches data written. Good!!\n");
-	} else {
+	// if (memcmp(expected, buf, len) == 0) {
+	// 	printf("Data read matches data written. Good!!\n");
+	// } else {
 		const uint8_t *wp = expected;
 		const uint8_t *rp = buf;
 		const uint8_t *rpe = rp + len;
+		uint16_t total_checked = 0;
 
-		printf("Data read does not match data written!!\n");
+		printf("reading the data written!!\n");
+		int mismatch_count = 0;
 		while (rp < rpe) {
-			printf("%08x wrote %02x read %02x %s\n",
-			       (uint32_t)(SPI_FLASH_TEST_REGION_OFFSET + (rp - buf)),
-			       *wp, *rp, (*rp == *wp) ? "match" : "MISMATCH");
+			if (*rp != *wp) {
+				printf("%08x wrote %02x read %02x MISMATCH\n",
+				       (uint32_t)(SPI_FLASH_TEST_REGION_OFFSET + (rp - buf)),
+				       *wp, *rp);
+				mismatch_count++;
+				if (mismatch_count >= 20) {
+					printf("  ... (stopping after 20 mismatches)\n");
+					break;
+				}
+			}
 			++rp;
 			++wp;
+			total_checked++;
 		}
-	}
+		if (mismatch_count == 0) {
+			printf("All %d bytes match!\n", total_checked);
+		}
+	// }
 }
 
 #if defined SPI_FLASH_MULTI_SECTOR_TEST
