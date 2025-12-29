@@ -1,0 +1,13 @@
+# Target labels
+ spi_flash_mx25u6432f
+# Source files and their labels
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/CMakeFiles/spi_flash_mx25u6432f
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/CMakeFiles/spi_flash_mx25u6432f.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/CMakeFiles/spi_flash_mx25u6432f-complete.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-build.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-configure.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-download.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-install.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-mkdir.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-patch.rule
+C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/_sysbuild/sysbuild/images/spi_flash_mx25u6432f-prefix/src/spi_flash_mx25u6432f-stamp/spi_flash_mx25u6432f-update.rule

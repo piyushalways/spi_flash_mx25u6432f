@@ -1,0 +1,7 @@
+default: spi_flash_mx25u6432f
+build_dir: C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build
+domains:
+  - name: spi_flash_mx25u6432f
+    build_dir: C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f
+flash_order:
+  - spi_flash_mx25u6432f

@@ -1,0 +1,58 @@
+*** Booting nRF Connect SDK v3.0.1-9eb5615da66b ***
+*** Using Zephyr OS v4.0.99-77f865b8f8d0 ***
+mx25r6435f@0: device not ready.
+[00:00:00.280,655] <err> flash_mspi_nor: JEDEC ID mismatch, read: c2 00 00, expected: c2 25 37
+*** Booting nRF Connect SDK v3.0.1-9eb5615da66b ***
+*** Using Zephyr OS v4.0.99-77f865b8f8d0 ***
+mx25r6435f@0: device not ready.
+
+mx25r6435f@0 SPI flash testing
+==========================
+Verifying flash chip compatibility...
+Expected: MX25U6432F (JEDEC ID: C2 25 37)
+Connected device: mx25r6435f@0
+
+ERROR: Wrong flash chip detected!
+This code is designed for MX25U6432F only.
+Detected device: mx25r6435f@0
+If you have MX25U6432F connected, check device tree configuration.
+
+Flash chip verification FAILED!
+Please connect MX25U6432F flash chip.
+
+Testing erase at multiple offsets:
+==================================
+  Testing erase at offset 0x0...
+    Before: ff ff ff ff ff ff ff ff...
+*** Booting nRF Connect SDK v3.0.1-9eb5615da66b ***
+*** Using Zephyr OS v4.0.99-77f865b8f8d0 ***
+    After:  ff ff ff ff ff ff ff ff...
+    OK
+  Testing erase at offset 0x1000...
+    Before: ff ff ff ff ff ff ff ff...
+    After:  ff ff ff ff ff ff ff ff...
+    OK
+  Testing erase at offset 0x10000...
+    Before: ff ff ff ff ff ff ff ff...
+    After:  ff ff ff ff ff ff ff ff...
+    OK
+  Testing erase at offset 0x50000...
+    Before: ff ff ff ff ff ff ff ff...
+    After:  ff ff ff ff ff ff ff ff...
+    OK
+  Testing erase at offset 0xff000...
+    Before: 55 aa 66 99 ff ff ff ff...
+    After:  ff ff ff ff ff ff ff ff...
+    OK
+
+Perform test on single sector
+Test 1: Flash erase
+Before erase: 0xff 0xff 0xff 0xff
+Flash erase command completed (rc=0)
+Waiting for erase to complete (2s delay for driver bug)...
+After erase:  0xff 0xff 0xff 0xff
+Flash erase succeeded!
+
+Test 2: Flash write
+Attempting to write 4 bytes
+Data read matches data written. Good!!
