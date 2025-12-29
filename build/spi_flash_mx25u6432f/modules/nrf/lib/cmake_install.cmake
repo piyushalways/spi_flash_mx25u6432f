@@ -44,6 +44,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/modules/nrf/lib/multithreading_lock/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/modules/nrf/lib/flash_patch/cmake_install.cmake")
 endif()
 

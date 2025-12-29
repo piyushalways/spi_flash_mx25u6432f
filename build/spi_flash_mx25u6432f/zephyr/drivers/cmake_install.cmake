@@ -74,6 +74,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/bluetooth/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/cache/cmake_install.cmake")
 endif()
 
@@ -85,6 +90,11 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/console/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/entropy/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -109,12 +119,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/sensor/cmake_install.cmake")
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/serial/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/serial/cmake_install.cmake")
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/drivers/spi/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

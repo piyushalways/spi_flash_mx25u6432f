@@ -137,3 +137,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/subsys/usb/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build/spi_flash_mx25u6432f/zephyr/subsys/bluetooth/cmake_install.cmake")
+endif()
+

@@ -20,6 +20,6 @@ cmake:
   sysbuild: true
 version: 0.1.0
 west:
-  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build --build-dir c:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build c:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f --pristine --board nrf54l15dk/nrf54l15/cpuapp
+  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build --build-dir c:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f/build c:/Users/Lenovo/INRGZ/spi_flash_mx25u6432f --pristine --board nrf54l15dk/nrf54l15/cpuapp --sysbuild --
   topdir: c:\ncs\v3.0.1
   version: 1.2.0

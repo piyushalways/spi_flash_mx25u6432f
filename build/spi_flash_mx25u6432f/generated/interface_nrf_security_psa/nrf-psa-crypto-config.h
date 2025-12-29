@@ -19,11 +19,11 @@
 /* #undef PSA_WANT_ALG_CCM */
 /* #undef PSA_WANT_ALG_CCM_STAR_NO_TAG */
 /* #undef PSA_WANT_ALG_CHACHA20_POLY1305 */
-/* #undef PSA_WANT_ALG_CMAC */
+#define PSA_WANT_ALG_CMAC                                  1
 /* #undef PSA_WANT_ALG_CTR */
-/* #undef PSA_WANT_ALG_CTR_DRBG */
+#define PSA_WANT_ALG_CTR_DRBG                              1
 /* #undef PSA_WANT_ALG_DETERMINISTIC_ECDSA */
-/* #undef PSA_WANT_ALG_ECB_NO_PADDING */
+#define PSA_WANT_ALG_ECB_NO_PADDING                        1
 /* #undef PSA_WANT_ALG_ECDH */
 /* #undef PSA_WANT_ALG_ECDSA */
 /* #undef PSA_WANT_ALG_ECDSA_ANY */
@@ -100,8 +100,8 @@
 /* #undef PSA_WANT_ECC_SECT_R2_163 */
 /* #undef PSA_WANT_ECC_TWISTED_EDWARDS_255 */
 /* #undef PSA_WANT_ECC_TWISTED_EDWARDS_448 */
-/* #undef PSA_WANT_GENERATE_RANDOM */
-/* #undef PSA_WANT_KEY_TYPE_AES */
+#define PSA_WANT_GENERATE_RANDOM                           1
+#define PSA_WANT_KEY_TYPE_AES                              1
 /* #undef PSA_WANT_KEY_TYPE_CHACHA20 */
 /* #undef PSA_WANT_KEY_TYPE_DERIVE */
 /* #undef PSA_WANT_KEY_TYPE_ECC_KEY_PAIR_BASIC */
