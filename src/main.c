@@ -8,6 +8,15 @@
 
 #include <string.h>
 
+#include <zephyr/drivers/gpio.h> //pj_change
+static const struct device *gpio1_dev = DEVICE_DT_GET(DT_NODELABEL(gpio1));
+static const struct device *gpio2_dev = DEVICE_DT_GET(DT_NODELABEL(gpio2)); //pj_change
+/* GPIO pins (as provided earlier) */ //pj_change
+#define GPIO_PIN_8   8   /* optional power or control pin - kept for parity */
+#define GPIO_PIN_15  15
+#define GPIO_PIN_10 10
+
+
 /* ===================== Flash Configuration ===================== */
 #define FLASH_START_ADDR     0x000000u
 #define TOTAL_SIZE_BYTES     (500u * 1024u)
@@ -143,6 +152,19 @@ int main(void)
     printk("\n========================================\n");
     printk("Flash Power Test - 500KB Write/Read/Erase\n");
     printk("========================================\n\n");
+
+    if (device_is_ready(gpio1_dev) && device_is_ready(gpio2_dev)) { //pj_change
+        int rc;
+        rc = gpio_pin_configure(gpio1_dev, GPIO_PIN_15, GPIO_OUTPUT_ACTIVE);
+        if (rc == 0) { gpio_pin_set(gpio1_dev, GPIO_PIN_15, 1); printk("GPIO 1.15 HIGH AVDD\n"); }
+        rc = gpio_pin_configure(gpio1_dev, GPIO_PIN_8, GPIO_OUTPUT_INACTIVE);
+        if (rc == 0) { gpio_pin_set(gpio1_dev, GPIO_PIN_8, 0); printk("GPIO 1.08 LOW EN_ACCEL\n"); }
+        rc = gpio_pin_configure(gpio2_dev, GPIO_PIN_10, GPIO_OUTPUT_INACTIVE);
+        if (rc == 0) { gpio_pin_set(gpio2_dev, GPIO_PIN_10, 0); printk("GPIO 2.10 LOW EN_ASVDD\n"); }
+    } else {
+        printk("GPIO device not ready (optional).");
+    }
+
 
     flash_dev = DEVICE_DT_GET(DT_NODELABEL(mx25u64));
     if (!device_is_ready(flash_dev)) {
